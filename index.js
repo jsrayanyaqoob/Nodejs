@@ -44,12 +44,35 @@ const users = require('./MOCK_DATA.json')
 const express = require('express')
 const app = express()
 const PORT = 3000
+const path = require('path')
+
+// Render all user through map (Practice)
+
+app.get('/users', (req, res) => {
+    const html = `
+        <ul>
+            ${users.map((users) => `<li>${users.first_name}</li>`).join('')}
+        </ul>
+    `
+
+    res.send(html)
+})
+
+// GET all user (Practice Express)
+
+app.get("/api/users", (req, res) =>{
+    return res.json(users)
+});
+
+// GET user from ID (Practice Express)
+
+app.get('/api/users/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const user = users.find((user) => user.id === id);
+    return res.json(user);
+})
 
 
 app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`)
-})
-
-app.get("/users", (res, req) =>{
-    return res.json(users)
 })
